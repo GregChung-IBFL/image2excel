@@ -55,4 +55,4 @@ The Samples directory contains two sample images, balloons.jpg and sunflower.jpg
 
 
 ### Special Thanks
-The inspiration for this program came from Matt Parker's Stand Up Maths ["Stand-up comedy routine about Spreadsheets"](https://youtu.be/UBX2QQHlQ_I) video.  Beyond the idea, all project code was solely written by me.
+The inspiration for this program came from Matt Parker's Stand-up Maths ["Stand-up comedy routine about Spreadsheets"](https://youtu.be/UBX2QQHlQ_I) video.  Beyond the idea, all project code was solely written by me.
