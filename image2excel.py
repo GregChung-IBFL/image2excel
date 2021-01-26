@@ -100,7 +100,6 @@ class Application :
         converter.process_file()
 
         print("\nDone!")
-        exit(0)
 
 
 
@@ -111,8 +110,6 @@ class Application :
         """Instantiate the Application class and run."""
         app = Application()
         app.run()
-        return
-
 
 
 
