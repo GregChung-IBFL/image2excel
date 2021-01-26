@@ -11,7 +11,7 @@
             "program": "image2excel.py",
             "args": [
                 "Samples\\balloons.jpg",
-                "Samples\\ballons_tiny.xlsx",
+                "Samples\\balloons_tiny.xlsx",
                 "--preset",
                 "tiny"
             ],
@@ -24,7 +24,7 @@
             "program": "image2excel.py",
             "args": [
                 "Samples\\balloons.jpg",
-                "Samples\\ballons_small.xlsx",
+                "Samples\\balloons_small.xlsx",
                 "--preset",
                 "small"
             ],
