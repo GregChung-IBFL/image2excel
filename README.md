@@ -14,19 +14,19 @@ The Conditional Formatting rules themselves can be viewed inside Excel.  From th
 
 
 ### Operation
-image2excel can be easily run from the command line.  The only required argument is to pass in the name of the image file.  The following will convert the sample image using default settings, creating balloons.xlsx in the same directory:
+image2excel can be easily run from the command line.  The only required argument is to pass in the name of the image file.  The following will convert the sample image using default settings, creating balloons.xlsx in the same directory: <br/>
 `python image2excel.py Samples\balloons.jpg`
 
-Use a `--preset` option ("tiny", "small", "medium", "large") to quickly control the output size of the spreadsheet:
+Use a `--preset` option ("tiny", "small", "medium", "large") to quickly control the output size of the spreadsheet: <br/>
 `python image2excel.py Samples\balloons.jpg --preset large`
 
-When not using a preset, the output height and/or width resolution can be specified with `--output_height` and `--output_width`:
+When not using a preset, the output height and/or width resolution can be specified with `--output_height` and `--output_width`: <br/>
 `python image2excel.py Samples\balloons.jpg --output_height 100`
 
-The `--enlarge` option allows the tool to upsize small source images into large spreadsheets:
+The `--enlarge` option allows the tool to upsize small source images into large spreadsheets: <br/>
 `python image2excel.py Samples\sunflower.jpg --preset large`
 
-`--output_zoom` controls the zoom percentage when opened.  The following will cause the spreadsheet to be opened at 200% magnification:
+`--output_zoom` controls the zoom percentage when opened.  The following will cause the spreadsheet to be opened at 200% magnification: <br/>
 `python image2excel.py Samples\balloons.jpg --output_zoom 200`
 
 `--help` is available!
