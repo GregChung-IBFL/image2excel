@@ -4,14 +4,20 @@ Converts an image file (.jpg, etc.) to a spreadsheet using individual cells colo
 - Coded in Python (3.9), with add-on libraries [OpenPyXL](https://openpyxl.readthedocs.io/), [Pillow](https://python-pillow.org/)
 - Developed using Visual Studio Code; includes several sample launch configurations under (.vscode directory)
 
+![Screenshot](https://user-images.githubusercontent.com/76141087/105903846-64a01500-5fee-11eb-90f9-b4a6bf79ef8e.png)
 
 ## What it Does / How the Spreadsheet Works
 The program converts the image into a spreadsheet containing the pixel-by-pixel Red, Green, and Blue component colors.  Each column in the spreadsheet represents a single primary color (R,G,B).  A cell contains a numeric value between 0 and 255, reflecting the RGB value making up the image pixel.  Three horizontally adjacent cells, such as A1:C1, thus contain the amount of Red, Green, and Blue in one pixel.
 
+![RGB numeric values](https://user-images.githubusercontent.com/76141087/105903481-ecd1ea80-5fed-11eb-98a0-4e3e7fd12cd6.png)
+
 Conditional Formatting rules are applied to every column.  The rules set the cell to a solid color using a two color gradient scale, from black (at value 0) to the appropriate RGB color (at value 255).  Every third column (A, D, G, ...) is red, the adjacent columns (B, E, H, ...) are green, and the remaining third columns (C, F, I, ...) are blue.  Increasing the magnification (the little slider in the lower-right in Excel), you should be able to see how the columns are discrete colors.
+
+![Magnified discrete RGB coloration](https://user-images.githubusercontent.com/76141087/105902200-4fc28200-5fec-11eb-9a9b-306f5f319f1b.png)
 
 The Conditional Formatting rules themselves can be viewed inside Excel.  From the Home menu select Conditional Formatting > Manage Rules (alternatively, use keyboard accelerators Alt-H > L > R).  Change the "Show formatting rules for" option to "This Worksheet" and you will see the three Graded Color Scale rules are applied to all the cells representing the image.
 
+![Conditional Formatting](https://user-images.githubusercontent.com/76141087/105902205-50f3af00-5fec-11eb-9d54-a883672bb5b2.png)
 
 ### Operation
 image2excel can be easily run from the command line.  The only required argument is to pass in the name of the image file.  The following will convert the sample image using default settings, creating balloons.xlsx in the same directory: <br/>
