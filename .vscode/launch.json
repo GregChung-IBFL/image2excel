@@ -1,0 +1,87 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Balloons (Tiny Preset)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\balloons.jpg",
+                "Samples\\ballons_tiny.xlsx",
+                "--preset",
+                "tiny"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Balloons (Small Preset)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\balloons.jpg",
+                "Samples\\ballons_small.xlsx",
+                "--preset",
+                "small"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Balloons (Medium Preset)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\balloons.jpg",
+                "Samples\\balloons_medium.xlsx",
+                "--preset",
+                "medium"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Balloons (Large Preset)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\balloons.jpg",
+                "Samples\\balloons_large.xlsx",
+                "--preset",
+                "large",
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Sunflower (--no-enlarge)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\sunflower.jpg",
+                "Samples\\sunflower_no-enlarge.xlsx",
+                "--preset",
+                "large"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Sunflower (--enlarge)",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples\\sunflower.jpg",
+                "Samples\\sunflower_enlarge.xlsx",
+                "--enlarge",
+                "--preset",
+                "large"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

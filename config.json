@@ -1,0 +1,13 @@
+{
+	"presets" : {
+					"tiny"   : { "output_width" : 120, "output_height" : 90  },
+					"small"  : { "output_width" : 200, "output_height" : 150 },
+					"medium" : { "output_width" : 400, "output_height" : 300 },
+					"large"  : { "output_width" : 800, "output_height" : 600 }
+				},
+	"output_col_width" : 0.20,
+	"output_row_height" : 2.5,
+	"output_zoom" : 100,
+	"output_width" : 200,
+	"output_height" : 150
+}
