@@ -30,7 +30,7 @@ When not using a preset, the output height and/or width resolution can be specif
 `python image2excel.py Samples\balloons.jpg --output_height 100`
 
 The `--enlarge` option allows the tool to upsize small source images into large spreadsheets: <br/>
-`python image2excel.py Samples\sunflower.jpg --preset large`
+`python image2excel.py Samples\sunflower.jpg --enlarge --preset large`
 
 `--output_zoom` controls the zoom percentage when opened.  The following will cause the spreadsheet to be opened at 200% magnification: <br/>
 `python image2excel.py Samples\balloons.jpg --output_zoom 200`
