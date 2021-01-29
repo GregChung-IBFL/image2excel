@@ -120,6 +120,17 @@
             "console": "integratedTerminal"
         },
         {
+            "name": "Testing: Batch with Output directory",
+            "type": "python",
+            "request": "launch",
+            "program": "image2excel.py",
+            "args": [
+                "Samples",
+                "Output"
+            ],
+            "console": "integratedTerminal"
+        },
+       {
             "name": "Testing: GIF (Medium Preset)",
             "type": "python",
             "request": "launch",
