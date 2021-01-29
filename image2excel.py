@@ -9,7 +9,10 @@
     zoomed out and/or standing far back, light combines to create the color palette we expect.
     Thus we can see the whole image, albeit possibly a little darker and grainier.
 
+    Coded by Greg Chung : https://github.com/GregChung-IBFL/image2excel
+
     V1.0    Tool supports command-line args, presets for default output sizes, operates on a single file.
+    V1.01   Bug fix for GIF support.
 """
 
 import json

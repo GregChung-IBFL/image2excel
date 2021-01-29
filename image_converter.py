@@ -2,6 +2,8 @@
 Processing module for image2excel.  Handles one image file end-to-end.
 To use, instantiate a Converter, then call its process_file method.  A
 Converter is for single-use only, use a new Converter to process another image.
+
+Coded by Greg Chung : https://github.com/GregChung-IBFL/image2excel
 """
 import os
 from datetime import datetime
@@ -56,6 +58,13 @@ class Converter :
         # factor is the minimum of either the X or Y scaling.
         rescale = min( horz_rescale, vert_rescale )
         return ( int(round(image.width * rescale)), int(round(image.height * rescale)), rescale )
+
+
+    def convert_to_RGB_mode( self, image ) :
+        """Converts the image to RGB mode.  Mainly useful for GIF paletted format."""
+        if image.mode != "RGB" :
+            image = image.convert( mode = "RGB", dither = None )
+        return image
 
 
     def resize_image_to_fit( self, image:Image, new_dimensions ) -> Image:
@@ -233,6 +242,8 @@ class Converter :
                                                   output_width = self.config["output_width"],
                                                   output_height = self.config["output_height"],
                                                   allow_enlarge = self.config.get("enlarge") )
+
+                image = self.convert_to_RGB_mode( image )
 
                 # Resize the image to fit the desired dimensions.
                 print( "Resizing image (%d x %d) to (%d x %d)..." % (image.size + new_dimensions[:2]) )
