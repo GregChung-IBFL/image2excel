@@ -52,7 +52,7 @@ The Samples directory contains two sample images, balloons.jpg and sunflower.jpg
 
 #### Version History
 - v1: Initial version supporting command-line args to process a single file.  Includes four preset settings (tiny, small, medium, large).
-
+- v1.01: Fixes support for GIF format (palette mode instead of RGB mode)
 
 ### Special Thanks
 The inspiration for this program came from Matt Parker's Stand-up Maths ["Stand-up comedy routine about Spreadsheets"](https://youtu.be/UBX2QQHlQ_I) video.  Beyond the idea, all project code was solely written by me.
