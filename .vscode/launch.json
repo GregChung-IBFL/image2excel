@@ -5,42 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Batch Samples (Tiny Preset)",
-            "type": "python",
-            "request": "launch",
-            "program": "image2excel.py",
-            "args": [
-                "Samples",
-                "--preset",
-                "tiny"
-            ],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Batch Samples (Medium Preset)",
-            "type": "python",
-            "request": "launch",
-            "program": "image2excel.py",
-            "args": [
-                "Samples",
-                "--preset",
-                "medium"
-            ],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Batch Samples (Large Preset)",
-            "type": "python",
-            "request": "launch",
-            "program": "image2excel.py",
-            "args": [
-                "Samples",
-                "--preset",
-                "large"
-            ],
-            "console": "integratedTerminal"
-        },
-        {
             "name": "Balloons (Tiny Preset)",
             "type": "python",
             "request": "launch",
@@ -131,15 +95,5 @@
             ],
             "console": "integratedTerminal"
         },
-        {
-            "name": "Testing: file path does not exist",
-            "type": "python",
-            "request": "launch",
-            "program": "image2excel.py",
-            "args": [
-                "D:\\does_not_exist"
-            ],
-            "console": "integratedTerminal"
-        },
-   ]
+    ]
 }
