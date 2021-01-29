@@ -3,6 +3,7 @@ Converts an image file (.jpg, etc.) to a spreadsheet using individual cells colo
 
 - Coded in Python (3.9), with add-on libraries [OpenPyXL](https://openpyxl.readthedocs.io/), [Pillow](https://python-pillow.org/)
 - Developed using Visual Studio Code; includes several sample launch configurations under (.vscode directory)
+- Supports batch processing (version 1.1)
 
 ![Screenshot](https://user-images.githubusercontent.com/76141087/105903846-64a01500-5fee-11eb-90f9-b4a6bf79ef8e.png)
 
@@ -39,6 +40,11 @@ The `--enlarge` option allows the tool to upsize small source images into large 
 
 When using Visual Studio Code, launch configurations (defined in .vscode\launch.json), it's easy to run the program with different settings.
 
+### Batch Processing
+image2excel can process a batch of multiple image files, when the named input file refers to a directory instead of a specific file.  All image files found under the input directory will be converted to spreadsheets.  By default, the generated .xlsx files will be placed in the same directory as the input images, but an alternative directory to receive the files can be specified.  The following command will process all images found within the Samples directory, and place the spreadsheet files into a directory named Output: <br />
+`python image2excel.py Samples Output`
+
+Settings, such as using a `--preset`, are applied to all files within the batch.
 
 ### Image Resizing
 Before being converted to a spreadsheet, the source images are resized to fit the desired dimensions.  The `--output_height` and `--output_width` values determine the target image size.  If a `--preset` is named, the preset values will override any values specified by `--output_height` and `--output_width`.
@@ -52,7 +58,8 @@ The Samples directory contains two sample images, balloons.jpg and sunflower.jpg
 
 #### Version History
 - v1: Initial version supporting command-line args to process a single file.  Includes four preset settings (tiny, small, medium, large).
-- v1.01: Fixes support for GIF format (palette mode instead of RGB mode)
+- v1.01: Fixes support for GIF format (palette mode instead of RGB mode).
+- v1.1: Adds batch support to process all image files under the named directory.
 
 ### Special Thanks
 The inspiration for this program came from Matt Parker's Stand-up Maths ["Stand-up comedy routine about Spreadsheets"](https://youtu.be/UBX2QQHlQ_I) video.  Beyond the idea, all project code was solely written by me.
