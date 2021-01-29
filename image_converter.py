@@ -183,14 +183,20 @@ class Converter :
 
 
 
-    def get_output_file_path( self, input_file_path, output_file_path ) -> str:
+    def get_output_file_path( self, input_file_path, output_file_path, is_batch_mode ) -> str:
         """Returns the file path for the output file.
         If @output_file_name is specified, its value will be used as the file name for the
         output spreadsheet file.  If not specified, the output file name will be the same
         as the image file, but with the ".xlsx" extension.
         By default, the file will be created under the same directory as the image file.
         """
-        if ( output_file_path is None or output_file_path == "" ) :
+        if is_batch_mode :
+            # In batch mode, output_file_path must be a directory, so all we need to do
+            # is append the file name to output_file_path.  basename() returns in the 
+            # input file's name, without the full path.  splitext() removes the extension.
+            filename = os.path.splitext( os.path.basename(input_file_path) )[0]
+            output_file_path = output_file_path + "\\" + filename + ".xlsx"
+        elif ( output_file_path is None or output_file_path == "" ) :
             # splitext returns the tuple, e.g. ("C:\Text\Example\MyFile", ".jpg"),
             # so simply swap the file extension.
             output_file_path = os.path.splitext( input_file_path )[0] + ".xlsx"
@@ -214,7 +220,7 @@ class Converter :
 
 
 
-    def process_file(self) :
+    def process_file(self) -> bool:
         """Converts one image file to a spreadsheet representation.
         """
 
@@ -222,12 +228,12 @@ class Converter :
         Image.MAX_IMAGE_PIXELS = 6000 * 4000  # 24 MP
 
         try :
-            print( F'Loading image file "{self.filepath}"...' )
             # file must remain open for as long as PIL may need to read from it. In this
             # code, that includes up through the resizing step, after which image will be
             # the resized copy (in memory).
             with open( self.filepath, "br" ) as file :
                 image = Image.open( file )
+                print( F'Loading image file "{self.filepath}"...' )
 
                 file_stats = os.stat( self.filepath )
                 self._add_image_info( "Image File", self.filepath)
@@ -243,25 +249,30 @@ class Converter :
                                                   output_height = self.config["output_height"],
                                                   allow_enlarge = self.config.get("enlarge") )
 
-                image = self.convert_to_RGB_mode( image )
+                if image.mode != "RGB" :
+                    print( "Converting image to RGB mode..." )
+                    image = self.convert_to_RGB_mode( image )
 
                 # Resize the image to fit the desired dimensions.
                 print( "Resizing image (%d x %d) to (%d x %d)..." % (image.size + new_dimensions[:2]) )
                 image = self.resize_image_to_fit( image, new_dimensions )
-
         except FileNotFoundError :
             print( "FileNotFoundError:  Please verify path is valid and file exists." )
-            return
+            return False
+        except OSError :
+            # Eat this exception.  If the file isn't a supported image format, Pillow throws this.
+            # This will typically come up in a batch process where there might be .xlsx files.
+            return False
         except Image.DecompressionBombError :
             print( "DecompressionBombError:  Image is too large to process, please try a smaller image." )
-            return
+            return False
 
         # Remember the dimensions of the spreadsheet "image" area:
         self.sheet_info.num_sheet_cols = image.width * 3
         self.sheet_info.num_sheet_rows = image.height
 
         # Figure out the outfile file path & name.
-        output_file_path = self.get_output_file_path( self.filepath, self.config["output_file"] )
+        output_file_path = self.get_output_file_path( self.filepath, self.config["output_file"], self.config["batch_mode"] )
 
         self._add_image_info( "Spreadsheet Range", "A1:{lastcol}{lastrow}".format( lastcol = get_column_letter(self.sheet_info.num_sheet_cols), lastrow = self.sheet_info.num_sheet_rows ) )
         self._add_image_info( "Spreadsheet File", output_file_path )
@@ -284,3 +295,6 @@ class Converter :
 
         # Write the output file, then we're done.
         self.save_excel_file( wkbook, output_file_path )
+
+        # Return True IFF we successfully processed the file
+        return True

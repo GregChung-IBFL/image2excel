@@ -13,10 +13,16 @@
 
     V1.0    Tool supports command-line args, presets for default output sizes, operates on a single file.
     V1.01   Bug fix for GIF support.
+    V1.1    Adds support for batch processing.
 """
 
+from os import path
+from datetime import datetime
+import sys
+import glob
 import json
 import argparse
+import textwrap
 
 import image_converter  # Mine
 
@@ -43,7 +49,7 @@ class Application :
                 self.config = json.load( jsonfile )
         except:
             print( F'Failed to read application configuration file "{CONFIG_FILE_APP}", aborting!' )
-            exit( -990 )
+            sys.exit( -990 )
 
 
     def parse_command_line(self) :
@@ -51,19 +57,27 @@ class Application :
         input_file is required.  All other settings are optional and will revert to
         default values, many themselves being assigned defaults via the config file.
         """
-
-        epilog = "Presets:\n"
-        epilog += "    small =  " + str(self.config["presets"]["small"]) + "\n"
-        epilog += "    medium = " + str(self.config["presets"]["medium"]) + "\n"
-        epilog += "    large =  " + str(self.config["presets"]["large"]) + "\n"
-        epilog += "Use of presets will override --output_height and --output_width, if specified."
+        epilog = textwrap.dedent( """
+        Batch Mode:
+            Batch mode is automatically enabled if <input_file> refers to a directory, instead of an individual
+            file.  In batch mode, all image files found in the named directory are processed.  Batching is
+            shallow; images located in subdirectories under the batch directory are not processed.
+            If <output_file> is specified with batch mode, it is required to be a directory to receive the
+            generated files.  If <output_file> is not specified, the batch processed output files will be
+            saved to the same directory as <input_file>.
+        Presets:
+            small =  """ + str(self.config["presets"]["small"]) + """
+            medium = """ + str(self.config["presets"]["medium"]) + """
+            large =  """ + str(self.config["presets"]["large"]) + """
+        Use of presets will override --output_height and --output_width, if specified.
+        """ )
 
         parser = argparse.ArgumentParser( description = "Converts an image file to a spreadsheet represention using conditional formatting rules",
                                             formatter_class = argparse.RawDescriptionHelpFormatter,
                                             epilog = epilog
                                         )
-        parser.add_argument( "input_file", help = "Input image filename" )
-        parser.add_argument( "output_file", default = "", nargs = "?", help = "Output filename, defaults to <input_file>.xlsx if not specified" )
+        parser.add_argument( "input_file", help = "Input image filename/directory" )
+        parser.add_argument( "output_file", default = "", nargs = "?", help = "Output filename/directory, defaults to <input_file>.xlsx if not specified" )
         parser.add_argument( "--output_zoom", type = float, default = self.config["output_zoom"], help = "Desired zoom ratio" )
         parser.add_argument( "--output_col_width", type = float, default = self.config["output_col_width"], help = "Desired output column width" )
         parser.add_argument( "--output_row_height", type = float, default = self.config["output_row_height"], help = "Desired output row height" )
@@ -97,15 +111,65 @@ class Application :
 
         self.parse_command_line()
 
-        filepath = self.config["input_file"]
-        converter = image_converter.Converter( filepath, self.config )
+        # Test if input_file exists and is a directory --> enable batch mode!
+        input_file = self.config["input_file"]
+        is_file = path.isfile( input_file )
+        is_dir = path.isdir( input_file )
 
-        converter.process_file()
+        # If input_file is an individual file, put its name into our files_list list.  If it
+        # refers to a directory, glob up all the file names into files_list.
+        self.config["batch_mode"] = False
+        if is_dir :
+            # Batch mode!
+            self.config["batch_mode"] = True
 
-        print("\nDone!")
+            # If the output_file is named, it must refer to an existing directory.
+            if not path.isdir( self.config["output_file"] ) :
+                print( F'Batch output target "{self.config["output_file"]}" does not exist or is not a directory.' )
+                sys.exit( -1 )
 
+            print( F'Batch processing image files in "{input_file}".' )
+            files_list = glob.glob( input_file + "\\*" )
+        elif is_file :
+            files_list = [ input_file ]
+        else :
+            print( F'Input file "{input_file}" does not exist, verify path is valid.' )
+            sys.exit( -1 )
 
+        start_time = datetime.now()
+        num_files_seen = 0
+        num_files_processed = 0
 
+        for file_path in files_list :
+            # In batch mode, files_list will contain everything directly under the named
+            # directory, which can include subdirectories.  This tool does not recurse,
+            # so skip anything which isn't a file.
+            if not path.isfile( file_path ) :
+                continue
+
+            # Pillow docs recommend simply trying to open all files using Image.open()
+            # to find the image files.  i.e. don't need to pre-filter by file extension.
+            # https://pillow.readthedocs.io/en/stable/handbook/tutorial.html
+
+            num_files_seen += 1
+            converter = image_converter.Converter( file_path, self.config )
+            if converter.process_file() :
+                num_files_processed += 1
+
+        # Calc the total processing time, then report some stats
+        elapsed = (datetime.now() - start_time).total_seconds()
+        elapsed_str = []
+        elapsed_minutes = elapsed // 60
+        if elapsed_minutes > 0 :
+            elapsed_str.append( F"{int(elapsed_minutes)} minutes" )
+        elapsed_seconds = elapsed % 60
+        if elapsed_seconds >= 0 :
+            elapsed_str.append( F"{int(elapsed_seconds)} seconds" )
+
+        print("")
+        print( F"Files seen: {num_files_seen}" )
+        print( F"Files processed: {num_files_processed}" )
+        print(  "Elapsed time: " + ", ".join(elapsed_str) )
 
 
     @staticmethod
