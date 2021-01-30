@@ -20,6 +20,10 @@ The Conditional Formatting rules themselves can be viewed inside Excel.  From th
 
 ![Conditional Formatting](https://user-images.githubusercontent.com/76141087/105902205-50f3af00-5fec-11eb-9d54-a883672bb5b2.png)
 
+### Dependencies
+The project contains a requirements.txt file.  Dependencies can be installed using pip: <br/>
+`pip install -r requirements.txt`
+
 ### Operation
 image2excel can be easily run from the command line.  The only required argument is to pass in the name of the image file.  The following will convert the sample image using default settings, creating balloons.xlsx in the same directory: <br/>
 `python image2excel.py Samples\balloons.jpg`
